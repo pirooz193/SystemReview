@@ -16,6 +16,9 @@ public class Product {
     @Column(name = "name", nullable = false, length = 300)
     private String name;
 
+    @Column(name = "isPresentable")
+    private boolean isPresentable;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "commenting_rule")
     private CommentingRule commentingRule;
@@ -33,12 +36,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && commentingRule == product.commentingRule && Objects.equals(buyers, product.buyers);
+        return isPresentable == product.isPresentable && Objects.equals(id, product.id) && Objects.equals(name, product.name) && commentingRule == product.commentingRule && Objects.equals(buyers, product.buyers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, commentingRule, buyers);
+        return Objects.hash(id, name, isPresentable, commentingRule, buyers);
     }
 
     @Override
@@ -46,6 +49,7 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", isPresentable=" + isPresentable +
                 ", commentingRule=" + commentingRule +
                 ", buyers=" + buyers +
                 '}';
