@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
             List<Comment> comments = commentRepository.findTop3ByProductIdAndIsApprovedOrderByCreatedDateTimeDesc(productDTO.getId(), true);
             List<CommentDTO> commentDTOS = commentMapper.toDTOList(comments);
             productDTO.setLastThreeCommentDTOS(commentDTOS);
-//            productDTO.setNumOfComments(productDTO.);
+            productDTO.setNumOfComments(commentRepository.countAllByProduct(productMapper.toEntity(productDTO)));
             Float averageScore = voteRepository.findAverageScoreByProductId(productDTO.getId(), true);
             productDTO.setAverageScore(averageScore == null ? 0 : averageScore);
         }

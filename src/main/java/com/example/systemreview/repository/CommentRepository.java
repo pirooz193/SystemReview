@@ -11,6 +11,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findTop3ByProductIdAndIsApprovedOrderByCreatedDateTimeDesc(Long productId, Boolean isApproved);
-
     List<Comment> findAllByProduct(Product product);
+
+    Integer countAllByProduct(Product product);
 }
