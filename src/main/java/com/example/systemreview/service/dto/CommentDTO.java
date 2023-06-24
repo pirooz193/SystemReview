@@ -13,12 +13,10 @@ public class CommentDTO {
     @JsonProperty(value = "isApproved")
     @JsonIgnore
     private boolean isApproved;
-    @JsonProperty(value = "product")
-    @JsonIgnore
-    private ProductDTO product;
-    @JsonProperty(value = "user")
-    @JsonIgnore
-    private UserDTO user;
+    @JsonProperty(value = "productId")
+    private Long productId;
+    @JsonProperty(value = "userId")
+    private Long userId;
 
     @Override
     public String toString() {
@@ -26,8 +24,8 @@ public class CommentDTO {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", isApproved=" + isApproved +
-                ", product=" + product +
-                ", user=" + user +
+                ", productId=" + productId +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -55,19 +53,19 @@ public class CommentDTO {
         isApproved = approved;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProduct(ProductDTO product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
