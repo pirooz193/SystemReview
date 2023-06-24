@@ -16,7 +16,7 @@ public class Comment {
     @Column(name = "content", length = 1000)
     private String content;
 
-    @Column(name = "isApproved")
+    @Column(name = "is_approved")
     private boolean isApproved;
 
     @ManyToOne(fetch = FetchType.LAZY)
