@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommentDTO {
-    @JsonProperty(value = "is")
+    @JsonProperty(value = "id")
     private Long id;
     @JsonProperty(value = "content")
     private String content;
