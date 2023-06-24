@@ -1,8 +1,5 @@
 package com.example.systemreview.service.dto;
 
-import com.example.systemreview.domain.Product;
-import com.example.systemreview.domain.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,12 +11,10 @@ public class VoteDTO {
     private int score;
     @JsonProperty(value = "approvalStatus")
     private boolean approvalStatus;
-    @JsonProperty(value = "product")
-    @JsonIgnore
-    private Product product;
-    @JsonProperty(value = "user")
-    @JsonIgnore
-    private User user;
+    @JsonProperty(value = "productId")
+    private Long productId;
+    @JsonProperty(value = "userId")
+    private Long userId;
 
     @Override
     public String toString() {
@@ -27,8 +22,8 @@ public class VoteDTO {
                 "id=" + id +
                 ", score=" + score +
                 ", approvalStatus=" + approvalStatus +
-                ", product=" + product +
-                ", user=" + user +
+                ", productId=" + productId +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -56,19 +51,19 @@ public class VoteDTO {
         this.approvalStatus = approvalStatus;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
