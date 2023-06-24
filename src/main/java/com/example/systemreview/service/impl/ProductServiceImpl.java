@@ -2,9 +2,11 @@ package com.example.systemreview.service.impl;
 
 import com.example.systemreview.domain.Comment;
 import com.example.systemreview.domain.Product;
+import com.example.systemreview.domain.User;
 import com.example.systemreview.domain.constants.Constants;
 import com.example.systemreview.repository.CommentRepository;
 import com.example.systemreview.repository.ProductRepository;
+import com.example.systemreview.repository.UserRepository;
 import com.example.systemreview.repository.VoteRepository;
 import com.example.systemreview.service.ProductService;
 import com.example.systemreview.service.dto.CommentDTO;
@@ -27,12 +29,15 @@ public class ProductServiceImpl implements ProductService {
 
     private final VoteRepository voteRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, CommentRepository commentRepository, CommentMapper commentMapper, ProductMapper productMapper, VoteRepository voteRepository) {
+    private final UserRepository userRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, CommentRepository commentRepository, CommentMapper commentMapper, ProductMapper productMapper, VoteRepository voteRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
         this.productMapper = productMapper;
         this.voteRepository = voteRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -74,5 +79,27 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setAverageScore(averageScore == null ? 0 : averageScore);
         }
         return products;
+    }
+
+    @Override
+    public ProductDTO buyProduct(Long productId, Long userId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException(Constants.PRODUCT + "{" + productId + "}"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(Constants.USER + "{" + userId + "}"));
+        user.getPurchasedProducts().add(product);
+        product.getBuyers().add(user);
+        userRepository.save(user);
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toDTO(savedProduct);
+    }
+
+    @Override
+    public ProductDTO changeCommentingStatus(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException(Constants.PRODUCT + "{" + productId + "}"));
+        product.setCommentingEnabled(!product.isCommentingEnabled());
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toDTO(savedProduct);
     }
 }

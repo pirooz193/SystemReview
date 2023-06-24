@@ -42,4 +42,17 @@ public class ProductResource {
         return ResponseEntity.ok(allProducts);
     }
 
+    @PostMapping("/{productId}/buy")
+    public ResponseEntity<ProductDTO> buyProduct(@PathVariable Long productId, @RequestParam Long userId) {
+        ProductDTO productDTO = productService.buyProduct(productId, userId);
+        return ResponseEntity.ok(productDTO);
+    }
+
+
+    @PatchMapping("/{productId}/change-commenting-status")
+    public ResponseEntity<ProductDTO> changeCommentingStatus(@PathVariable Long productId) {
+        ProductDTO productDTO = productService.changeCommentingStatus(productId);
+        return ResponseEntity.ok(productDTO);
+    }
+
 }

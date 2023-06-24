@@ -12,4 +12,8 @@ public interface ProductService {
     ProductDTO createProduct(ProductDTO productDTO);
 
     List<ProductDTO> getAllProducts();
+
+    ProductDTO buyProduct(Long productId, Long userId);
+
+    ProductDTO changeCommentingStatus(Long commentId);
 }
