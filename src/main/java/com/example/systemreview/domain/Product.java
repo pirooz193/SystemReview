@@ -1,6 +1,6 @@
 package com.example.systemreview.domain;
 
-import com.example.systemreview.domain.enums.CommentingRule;
+import com.example.systemreview.domain.enums.ReactionRules;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,16 +19,22 @@ public class Product {
     @Column(name = "isPresentable")
     private boolean isPresentable;
 
+    @Column(name = "commenting_enabled")
+    private boolean commentingEnabled;
+
+    @Column(name = "voting_enabled")
+    private boolean votingEnabled;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "commenting_rule")
-    private CommentingRule commentingRule;
+    @Column(name = "reaction_rule")
+    private ReactionRules reactionRules;
 
     @ManyToMany(mappedBy = "purchasedProducts")
     private List<User> buyers;
 
 
     public boolean isCommentingAllowed(User user) {
-        return commentingRule != CommentingRule.BUYERS_ONLY || buyers.contains(user);
+        return reactionRules != ReactionRules.BUYERS_ONLY || buyers.contains(user);
     }
 
     @Override
@@ -36,12 +42,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return isPresentable == product.isPresentable && Objects.equals(id, product.id) && Objects.equals(name, product.name) && commentingRule == product.commentingRule && Objects.equals(buyers, product.buyers);
+        return isPresentable == product.isPresentable && commentingEnabled == product.commentingEnabled && votingEnabled == product.votingEnabled && Objects.equals(id, product.id) && Objects.equals(name, product.name) && reactionRules == product.reactionRules && Objects.equals(buyers, product.buyers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, isPresentable, commentingRule, buyers);
+        return Objects.hash(id, name, isPresentable, commentingEnabled, votingEnabled, reactionRules, buyers);
     }
 
     @Override
@@ -50,7 +56,9 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", isPresentable=" + isPresentable +
-                ", commentingRule=" + commentingRule +
+                ", commentingEnabled=" + commentingEnabled +
+                ", votingEnabled=" + votingEnabled +
+                ", reactionRules=" + reactionRules +
                 ", buyers=" + buyers +
                 '}';
     }
@@ -71,12 +79,12 @@ public class Product {
         this.name = name;
     }
 
-    public CommentingRule getCommentingRule() {
-        return commentingRule;
+    public ReactionRules getCommentingRule() {
+        return reactionRules;
     }
 
-    public void setCommentingRule(CommentingRule commentingRule) {
-        this.commentingRule = commentingRule;
+    public void setCommentingRule(ReactionRules reactionRules) {
+        this.reactionRules = reactionRules;
     }
 
     public List<User> getBuyers() {
@@ -85,5 +93,37 @@ public class Product {
 
     public void setBuyers(List<User> buyers) {
         this.buyers = buyers;
+    }
+
+    public boolean isPresentable() {
+        return isPresentable;
+    }
+
+    public void setPresentable(boolean presentable) {
+        isPresentable = presentable;
+    }
+
+    public boolean isCommentingEnabled() {
+        return commentingEnabled;
+    }
+
+    public void setCommentingEnabled(boolean commentingEnabled) {
+        this.commentingEnabled = commentingEnabled;
+    }
+
+    public boolean isVotingEnabled() {
+        return votingEnabled;
+    }
+
+    public void setVotingEnabled(boolean votingEnabled) {
+        this.votingEnabled = votingEnabled;
+    }
+
+    public ReactionRules getReactionRules() {
+        return reactionRules;
+    }
+
+    public void setReactionRules(ReactionRules reactionRules) {
+        this.reactionRules = reactionRules;
     }
 }
