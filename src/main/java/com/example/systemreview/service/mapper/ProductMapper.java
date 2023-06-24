@@ -14,7 +14,7 @@ public interface ProductMapper {
     default Product updateProductDetailsFromDto(ProductDTO productDTO, Product product) {
         if (productDTO.getName() != null) product.setName(productDTO.getName());
         if (productDTO.getReactionRules() != null) product.setReactionRules(productDTO.getReactionRules());
-        if (productDTO.isPresentable() != null) product.setPresentable(productDTO.isPresentable());
+        if (productDTO.getPresentable() != null) product.setPresentable(productDTO.getPresentable());
         if (productDTO.isCommentingEnabled() != null) product.setCommentingEnabled(productDTO.isCommentingEnabled());
         if (productDTO.isVotingEnabled() != null) product.setVotingEnabled(productDTO.isVotingEnabled());
         return product;

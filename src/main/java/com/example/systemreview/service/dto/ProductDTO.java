@@ -15,7 +15,7 @@ public class ProductDTO {
     @JsonProperty(value = "name")
     private String name;
     @JsonProperty(value = "isPresentable")
-    private Boolean isPresentable;
+    private Boolean presentable;
     @JsonProperty(value = "commentingEnabled")
     private Boolean commentingEnabled;
     @JsonProperty(value = "votingEnabled")
@@ -32,7 +32,7 @@ public class ProductDTO {
     private List<User> buyers;
 
     @JsonProperty(value = "comments")
-    @JsonIgnore
+//    @JsonIgnore
     private List<CommentDTO> lastThreeCommentDTOS;
 
     @Override
@@ -40,7 +40,7 @@ public class ProductDTO {
         return "ProductDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isPresentable=" + isPresentable +
+                ", isPresentable=" + presentable +
                 ", commentingEnabled=" + commentingEnabled +
                 ", votingEnabled=" + votingEnabled +
                 ", reactionRules=" + reactionRules +
@@ -65,12 +65,12 @@ public class ProductDTO {
         this.name = name;
     }
 
-    public Boolean isPresentable() {
-        return isPresentable;
+    public Boolean getPresentable() {
+        return presentable;
     }
 
     public void setPresentable(Boolean presentable) {
-        isPresentable = presentable;
+        this.presentable = presentable;
     }
 
     public Boolean isCommentingEnabled() {
