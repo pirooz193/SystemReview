@@ -15,6 +15,7 @@ import com.example.systemreview.web.error.NotFoundException;
 import com.example.systemreview.web.error.PermissionDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class CommentServiceImpl implements CommentService {
             if (product.isCommentingAllowed(user)) {
                 comment.setUser(user);
                 comment.setProduct(product);
+                comment.setCreatedDateTime(LocalDateTime.now());
                 commentRepository.save(comment);
             } else throw new PermissionDeniedException(Constants.USER + "{" + user.getUsername() + "}");
         } else throw new CommentingIsCloseException();

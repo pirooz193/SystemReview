@@ -68,13 +68,11 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDTO> products = productRepository.findAllByIsPresentable(true).stream()
                 .map(productMapper::toDTO)
                 .collect(Collectors.toList());
-
         for (ProductDTO productDTO : products) {
-            List<Comment> comments = commentRepository.findLastThreeCommentsByProductIdAndIsApprovedIsTrue(productDTO.getId());
+            List<Comment> comments = commentRepository.findTop3ByProductIdAndIsApprovedOrderByCreatedDateTimeDesc(productDTO.getId(), true);
             List<CommentDTO> commentDTOS = commentMapper.toDTOList(comments);
             productDTO.setLastThreeCommentDTOS(commentDTOS);
-            productDTO.setNumOfComments(comments.size());
-
+//            productDTO.setNumOfComments(productDTO.);
             Float averageScore = voteRepository.findAverageScoreByProductId(productDTO.getId(), true);
             productDTO.setAverageScore(averageScore == null ? 0 : averageScore);
         }
