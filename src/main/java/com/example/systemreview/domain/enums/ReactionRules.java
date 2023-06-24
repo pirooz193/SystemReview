@@ -1,6 +1,6 @@
 package com.example.systemreview.domain.enums;
 
-public enum CommentingRule {
+public enum ReactionRules {
     ALL_USERS,
     BUYERS_ONLY
 }
