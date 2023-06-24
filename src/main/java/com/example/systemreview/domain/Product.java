@@ -16,14 +16,14 @@ public class Product {
     @Column(name = "name", nullable = false, length = 300)
     private String name;
 
-    @Column(name = "isPresentable")
-    private boolean isPresentable;
+    @Column(name = "is_presentable")
+    private Boolean isPresentable;
 
     @Column(name = "commenting_enabled")
-    private boolean commentingEnabled;
+    private Boolean commentingEnabled;
 
     @Column(name = "voting_enabled")
-    private boolean votingEnabled;
+    private Boolean votingEnabled;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "reaction_rule")
@@ -79,14 +79,6 @@ public class Product {
         this.name = name;
     }
 
-    public ReactionRules getCommentingRule() {
-        return reactionRules;
-    }
-
-    public void setCommentingRule(ReactionRules reactionRules) {
-        this.reactionRules = reactionRules;
-    }
-
     public List<User> getBuyers() {
         return buyers;
     }
@@ -95,23 +87,23 @@ public class Product {
         this.buyers = buyers;
     }
 
-    public boolean isPresentable() {
+    public Boolean isPresentable() {
         return isPresentable;
     }
 
-    public void setPresentable(boolean presentable) {
+    public void setPresentable(Boolean presentable) {
         isPresentable = presentable;
     }
 
-    public boolean isCommentingEnabled() {
+    public Boolean isCommentingEnabled() {
         return commentingEnabled;
     }
 
-    public void setCommentingEnabled(boolean commentingEnabled) {
+    public void setCommentingEnabled(Boolean commentingEnabled) {
         this.commentingEnabled = commentingEnabled;
     }
 
-    public boolean isVotingEnabled() {
+    public Boolean isVotingEnabled() {
         return votingEnabled;
     }
 
