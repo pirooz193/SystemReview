@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findLastThreeCommentsByProductIdAndIsApprovedIsTrue(Long productId);
+    List<Comment> findTop3ByProductIdAndIsApprovedOrderByCreatedDateTimeDesc(Long productId, Boolean isApproved);
 
     List<Comment> findAllByProduct(Product product);
 }
