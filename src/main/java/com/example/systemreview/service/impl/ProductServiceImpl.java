@@ -40,6 +40,14 @@ public class ProductServiceImpl implements ProductService {
         this.userRepository = userRepository;
     }
 
+
+    /**
+     * Updates the details of a product based on the provided ProductDTO.
+     *
+     * @param productDTO The ProductDTO containing the updated product details.
+     * @return The ProductDTO representing the updated product.
+     * @throws NotFoundException if the product with the specified ID is not found.
+     */
     @Override
     public ProductDTO updateProductDetails(ProductDTO productDTO) {
         Product product = productRepository.findById(productDTO.getId())
@@ -49,6 +57,13 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDTO(updatedProduct);
     }
 
+    /**
+     * Retrieves the product with the specified product ID.
+     *
+     * @param productId The ID of the product to retrieve.
+     * @return The ProductDTO representing the retrieved product.
+     * @throws NotFoundException if the product with the specified ID is not found.
+     */
     @Override
     public ProductDTO getRequiredProduct(Long productId) {
         Product product = productRepository.findById(productId)
@@ -56,6 +71,12 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDTO(product);
     }
 
+    /**
+     * Creates a new product based on the provided ProductDTO.
+     *
+     * @param productDTO The ProductDTO containing the data for the new product.
+     * @return The ProductDTO representing the created product.
+     */
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
         Product product = productMapper.toEntity(productDTO);
@@ -63,6 +84,12 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDTO(savedProduct);
     }
 
+
+    /**
+     * Retrieves all products that are presentable along with additional information.
+     *
+     * @return A list of ProductDTO objects representing the retrieved products.
+     */
     @Override
     public List<ProductDTO> getAllProducts() {
         List<ProductDTO> products = productRepository.findAllByIsPresentable(true).stream()
@@ -79,6 +106,15 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
+
+    /**
+     * Allows a user to purchase a product with the specified product ID.
+     *
+     * @param productId The ID of the product to be purchased.
+     * @param userId    The ID of the user making the purchase.
+     * @return The ProductDTO representing the purchased product.
+     * @throws NotFoundException if the product or user with the specified ID is not found.
+     */
     @Override
     public ProductDTO buyProduct(Long productId, Long userId) {
         Product product = productRepository.findById(productId)
@@ -92,6 +128,14 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDTO(savedProduct);
     }
 
+    /**
+     * Changes the commenting status of a product with the specified product ID.
+     * If the commenting is currently enabled, it will be disabled, and vice versa.
+     *
+     * @param productId The ID of the product for which to change the commenting status.
+     * @return The ProductDTO representing the product with the updated commenting status.
+     * @throws NotFoundException if the product with the specified ID is not found.
+     */
     @Override
     public ProductDTO changeCommentingStatus(Long productId) {
         Product product = productRepository.findById(productId)

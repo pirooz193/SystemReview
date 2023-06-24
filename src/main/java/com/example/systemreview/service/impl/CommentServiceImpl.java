@@ -33,6 +33,15 @@ public class CommentServiceImpl implements CommentService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Creates a new comment based on the provided CommentDTO.
+     *
+     * @param commentDTO The CommentDTO containing the data for the new comment.
+     * @return The CommentDTO representing the created comment.
+     * @throws NotFoundException          if the associated product or user is not found.
+     * @throws PermissionDeniedException  if the commenting is not allowed for the user.
+     * @throws CommentingIsCloseException if commenting is disabled for the product.
+     */
     @Override
     public CommentDTO createComment(CommentDTO commentDTO) {
         Comment comment = commentMapper.toEntity(commentDTO);
@@ -51,6 +60,13 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.toDTO(comment);
     }
 
+    /**
+     * Retrieves the comments associated with the specified product.
+     *
+     * @param productId The ID of the product for which to retrieve the comments.
+     * @return A list of CommentDTO objects representing the comments of the specified product.
+     * @throws NotFoundException if the product with the specified ID is not found.
+     */
     @Override
     public List<CommentDTO> getRequiredProductComments(Long productId) {
         Product product = productRepository.findById(productId)
@@ -59,6 +75,13 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.toDTOList(requiredProductComments);
     }
 
+    /**
+     * Approves a comment with the specified comment ID.
+     *
+     * @param commentId The ID of the comment to be approved.
+     * @return The CommentDTO representing the approved comment.
+     * @throws NotFoundException if the comment with the specified ID is not found.
+     */
     @Override
     public CommentDTO approveComment(Long commentId) {
         Comment requiredComment = commentRepository.findById(commentId)

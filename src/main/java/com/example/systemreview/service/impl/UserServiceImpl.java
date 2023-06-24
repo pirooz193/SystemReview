@@ -18,6 +18,12 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+    /**
+     * Creates a new user based on the provided UserDTO.
+     *
+     * @param userDTO The UserDTO containing the data for the new user.
+     * @return The UserDTO representing the created user.
+     */
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         User savedUser = userRepository.save(userMapper.toEntity(userDTO));

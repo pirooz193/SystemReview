@@ -29,6 +29,14 @@ public class VoteServiceImpl implements VoteService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Saves a vote based on the provided VoteDTO.
+     *
+     * @param voteDTO The VoteDTO containing the data for the vote.
+     * @return The VoteDTO representing the saved vote.
+     * @throws NotFoundException       if the product or user with the specified ID is not found.
+     * @throws VotingIsClosedException if voting is closed for the associated product.
+     */
     @Override
     public VoteDTO saveVote(VoteDTO voteDTO) {
         Vote vote = voteMapper.toEntity(voteDTO);
