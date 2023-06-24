@@ -10,6 +10,7 @@ import com.example.systemreview.repository.UserRepository;
 import com.example.systemreview.service.CommentService;
 import com.example.systemreview.service.dto.CommentDTO;
 import com.example.systemreview.service.mapper.CommentMapper;
+import com.example.systemreview.web.error.CommentingIsCloseException;
 import com.example.systemreview.web.error.NotFoundException;
 import com.example.systemreview.web.error.PermissionDeniedException;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,14 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new NotFoundException(Constants.PRODUCT + "{" + commentDTO.getProductId() + "}"));
         User user = userRepository.findById(commentDTO.getUserId())
                 .orElseThrow(() -> new NotFoundException(Constants.USER + "{" + commentDTO.getUserId() + "}"));
-        if (product.isCommentingAllowed(user)) {
-            comment.setUser(user);
-            comment.setProduct(product);
-            commentRepository.save(comment);
-        } else throw new PermissionDeniedException(Constants.USER + "{" + user.getUsername() + "}");
-        return null;
+        if (product.isCommentingEnabled()) {
+            if (product.isCommentingAllowed(user)) {
+                comment.setUser(user);
+                comment.setProduct(product);
+                commentRepository.save(comment);
+            } else throw new PermissionDeniedException(Constants.USER + "{" + user.getUsername() + "}");
+        } else throw new CommentingIsCloseException();
+        return commentMapper.toDTO(comment);
     }
 
     @Override
@@ -52,5 +55,14 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new NotFoundException(Constants.PRODUCT + "{" + productId + "}"));
         List<Comment> requiredProductComments = commentRepository.findAllByProduct(product);
         return commentMapper.toDTOList(requiredProductComments);
+    }
+
+    @Override
+    public CommentDTO approveComment(Long commentId) {
+        Comment requiredComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException(Constants.COMMENT + "{" + commentId + "}"));
+        requiredComment.setApproved(true);
+        Comment savedComment = commentRepository.save(requiredComment);
+        return commentMapper.toDTO(savedComment);
     }
 }

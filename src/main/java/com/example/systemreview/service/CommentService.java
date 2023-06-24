@@ -8,4 +8,6 @@ public interface CommentService {
     CommentDTO createComment(CommentDTO commentDTO);
 
     List<CommentDTO> getRequiredProductComments(Long productId);
+
+    CommentDTO approveComment(Long commentId);
 }

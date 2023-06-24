@@ -30,4 +30,10 @@ public class CommentResource {
         return ResponseEntity.ok().body(comments);
     }
 
+    @PatchMapping("/approve/{commentId}")
+    public ResponseEntity<CommentDTO> approveComment(@PathVariable Long commentId) {
+        CommentDTO approvedComment = commentService.approveComment(commentId);
+        return ResponseEntity.ok(approvedComment);
+    }
+
 }
