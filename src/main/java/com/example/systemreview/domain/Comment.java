@@ -2,6 +2,7 @@ package com.example.systemreview.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +19,9 @@ public class Comment {
 
     @Column(name = "is_approved")
     private boolean isApproved;
+
+    @Column(name = "created_date_time", nullable = false)
+    private LocalDateTime createdDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -36,12 +40,12 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return isApproved == comment.isApproved && Objects.equals(id, comment.id) && Objects.equals(content, comment.content) && Objects.equals(product, comment.product) && Objects.equals(user, comment.user);
+        return isApproved == comment.isApproved && Objects.equals(id, comment.id) && Objects.equals(content, comment.content) && Objects.equals(createdDateTime, comment.createdDateTime) && Objects.equals(product, comment.product) && Objects.equals(user, comment.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content, isApproved, product, user);
+        return Objects.hash(id, content, isApproved, createdDateTime, product, user);
     }
 
     @Override
@@ -49,7 +53,8 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", approved=" + isApproved +
+                ", isApproved=" + isApproved +
+                ", createdDateTime=" + createdDateTime +
                 ", product=" + product +
                 ", user=" + user +
                 '}';
@@ -93,5 +98,13 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 }

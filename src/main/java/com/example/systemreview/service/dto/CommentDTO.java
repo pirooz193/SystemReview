@@ -1,8 +1,9 @@
 package com.example.systemreview.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommentDTO {
@@ -11,8 +12,9 @@ public class CommentDTO {
     @JsonProperty(value = "content")
     private String content;
     @JsonProperty(value = "isApproved")
-    @JsonIgnore
-    private boolean isApproved;
+    private boolean approved;
+    @JsonProperty(value = "createdDateTime")
+    private LocalDateTime createdDateTime;
     @JsonProperty(value = "productId")
     private Long productId;
     @JsonProperty(value = "userId")
@@ -23,7 +25,8 @@ public class CommentDTO {
         return "CommentDTO{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", isApproved=" + isApproved +
+                ", isApproved=" + approved +
+                ", createdDateTime=" + createdDateTime +
                 ", productId=" + productId +
                 ", userId=" + userId +
                 '}';
@@ -46,11 +49,11 @@ public class CommentDTO {
     }
 
     public boolean isApproved() {
-        return isApproved;
+        return approved;
     }
 
     public void setApproved(boolean approved) {
-        isApproved = approved;
+        this.approved = approved;
     }
 
     public Long getProductId() {
@@ -67,5 +70,13 @@ public class CommentDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 }
