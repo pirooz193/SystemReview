@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
@@ -35,5 +36,10 @@ public class ProductResource {
         return ResponseEntity.ok(updatedProduct);
     }
 
+    @GetMapping("/get-all")
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> allProducts = productService.getAllProducts();
+        return ResponseEntity.ok(allProducts);
+    }
 
 }

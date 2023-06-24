@@ -1,23 +1,38 @@
 package com.example.systemreview.service.impl;
 
+import com.example.systemreview.domain.Comment;
 import com.example.systemreview.domain.Product;
 import com.example.systemreview.domain.constants.Constants;
+import com.example.systemreview.repository.CommentRepository;
 import com.example.systemreview.repository.ProductRepository;
+import com.example.systemreview.repository.VoteRepository;
 import com.example.systemreview.service.ProductService;
+import com.example.systemreview.service.dto.CommentDTO;
 import com.example.systemreview.service.dto.ProductDTO;
+import com.example.systemreview.service.mapper.CommentMapper;
 import com.example.systemreview.service.mapper.ProductMapper;
 import com.example.systemreview.web.error.NotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
     private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
+    private final VoteRepository voteRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, CommentRepository commentRepository, CommentMapper commentMapper, ProductMapper productMapper, VoteRepository voteRepository) {
         this.productRepository = productRepository;
+        this.commentRepository = commentRepository;
+        this.commentMapper = commentMapper;
         this.productMapper = productMapper;
+        this.voteRepository = voteRepository;
     }
 
     @Override
@@ -41,5 +56,23 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.toEntity(productDTO);
         Product savedProduct = productRepository.save(product);
         return productMapper.toDTO(savedProduct);
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        List<ProductDTO> products = productRepository.findAllByIsPresentable(true).stream()
+                .map(productMapper::toDTO)
+                .collect(Collectors.toList());
+
+        for (ProductDTO productDTO : products) {
+            List<Comment> comments = commentRepository.findLastThreeCommentsByProductIdAndIsApprovedIsTrue(productDTO.getId());
+            List<CommentDTO> commentDTOS = commentMapper.toDTOList(comments);
+            productDTO.setLastThreeCommentDTOS(commentDTOS);
+            productDTO.setNumOfComments(comments.size());
+
+            Float averageScore = voteRepository.findAverageScoreByProductId(productDTO.getId(), true);
+            productDTO.setAverageScore(averageScore == null ? 0 : averageScore);
+        }
+        return products;
     }
 }
