@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/systemReview
-    username: root
-    password: Pir**z1379
+    username: 
+    password: 
   jpa:
     database: mysql
     hibernate:
