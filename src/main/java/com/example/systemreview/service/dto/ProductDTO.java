@@ -22,13 +22,18 @@ public class ProductDTO {
     private Boolean votingEnabled;
     @JsonProperty(value = "reactionRules")
     private ReactionRules reactionRules;
+    @JsonProperty(value = "averageScore")
+    private float averageScore;
+    @JsonProperty(value = "numOfComments")
+    private int numOfComments;
+
     @JsonProperty(value = "buyers")
     @JsonIgnore
     private List<User> buyers;
 
     @JsonProperty(value = "comments")
     @JsonIgnore
-    private List<CommentDTO> commentDTOS;
+    private List<CommentDTO> lastThreeCommentDTOS;
 
     @Override
     public String toString() {
@@ -40,7 +45,7 @@ public class ProductDTO {
                 ", votingEnabled=" + votingEnabled +
                 ", reactionRules=" + reactionRules +
                 ", buyers=" + buyers +
-                ", commentDTOS=" + commentDTOS +
+                ", commentDTOS=" + lastThreeCommentDTOS +
                 '}';
     }
 
@@ -98,5 +103,29 @@ public class ProductDTO {
 
     public void setBuyers(List<User> buyers) {
         this.buyers = buyers;
+    }
+
+    public float getAverageScore() {
+        return averageScore;
+    }
+
+    public void setAverageScore(float averageScore) {
+        this.averageScore = averageScore;
+    }
+
+    public int getNumOfComments() {
+        return numOfComments;
+    }
+
+    public void setNumOfComments(int numOfComments) {
+        this.numOfComments = numOfComments;
+    }
+
+    public List<CommentDTO> getLastThreeCommentDTOS() {
+        return lastThreeCommentDTOS;
+    }
+
+    public void setLastThreeCommentDTOS(List<CommentDTO> lastThreeCommentDTOS) {
+        this.lastThreeCommentDTOS = lastThreeCommentDTOS;
     }
 }
