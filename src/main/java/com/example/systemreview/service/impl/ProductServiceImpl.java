@@ -108,13 +108,12 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ProductDTO> getAllProducts() {
-        List<ProductDTO> products = productRepository.findAllByIsPresentable(true).stream()
-                .map(productMapper::toDTO)
+        return productRepository.findAllByIsPresentable(true).stream()
+                .map(product -> {
+                    ProductDTO productDTO = productMapper.toDTO(product);
+                    return getProductDTOExtraDetails(productDTO);
+                })
                 .collect(Collectors.toList());
-        for (ProductDTO productDTO : products) {
-            getProductDTOExtraDetails(productDTO);
-        }
-        return products;
     }
 
 
