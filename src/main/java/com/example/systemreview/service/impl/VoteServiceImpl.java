@@ -51,4 +51,20 @@ public class VoteServiceImpl implements VoteService {
         } else throw new VotingIsClosedException();
         return voteMapper.toDTO(vote);
     }
+
+    /**
+     * Approves a vote with the specified vote ID.
+     *
+     * @param voteId The ID of the vote to be approved.
+     * @return The VoteDTO representing the approved vote.
+     * @throws NotFoundException if the vote with the specified ID is not found.
+     */
+    @Override
+    public VoteDTO approveVote(Long voteId) {
+        Vote requiredVote = voteRepository.findById(voteId)
+                .orElseThrow(() -> new NotFoundException(Constants.VOTE + "{" + voteId + "}"));
+        requiredVote.setApprovalStatus(true);
+        Vote savedVote = voteRepository.save(requiredVote);
+        return voteMapper.toDTO(savedVote);
+    }
 }

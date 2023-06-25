@@ -3,10 +3,7 @@ package com.example.systemreview.web.rest;
 import com.example.systemreview.service.VoteService;
 import com.example.systemreview.service.dto.VoteDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -25,4 +22,11 @@ public class VoteResource {
         VoteDTO savedVote = voteService.saveVote(voteDTO);
         return ResponseEntity.created(URI.create("/api/vote")).body(savedVote);
     }
+
+    @PatchMapping("/approve/{voteId}")
+    public ResponseEntity<VoteDTO> approveVote(@PathVariable Long voteId) {
+        VoteDTO approvedVote = voteService.approveVote(voteId);
+        return ResponseEntity.ok(approvedVote);
+    }
+
 }
