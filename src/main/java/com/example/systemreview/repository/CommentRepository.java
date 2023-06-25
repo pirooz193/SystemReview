@@ -14,5 +14,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByProductAndIsApproved(Product product, Boolean approved);
 
-    Integer countAllByProduct(Product product);
+    Integer countAllByProductAndIsApproved(Product product, Boolean isApproved);
 }
