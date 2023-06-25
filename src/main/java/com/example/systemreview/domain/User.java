@@ -2,7 +2,6 @@ package com.example.systemreview.domain;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,17 +26,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> purchasedProducts;
-
-    public void addPurchasedProduct(Product product) {
-        if (purchasedProducts == null) {
-            purchasedProducts = new ArrayList<>();
-        }
-        purchasedProducts.add(product);
-    }
-
-    public boolean hasPurchasedProduct(Product product) {
-        return purchasedProducts != null && purchasedProducts.contains(product);
-    }
 
     @Override
     public boolean equals(Object o) {
