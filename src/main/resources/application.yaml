@@ -14,7 +14,7 @@ logging:
   level:
     com:
       example:
-        studentserviceapplication: DEBUG
+        systemreview: DEBUG
     root: info
 
 server:
