@@ -71,7 +71,7 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDTO> getRequiredProductComments(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(Constants.PRODUCT + "{" + productId + "}"));
-        List<Comment> requiredProductComments = commentRepository.findAllByProduct(product);
+        List<Comment> requiredProductComments = commentRepository.findAllByProductAndIsApproved(product, true);
         return commentMapper.toDTOList(requiredProductComments);
     }
 
