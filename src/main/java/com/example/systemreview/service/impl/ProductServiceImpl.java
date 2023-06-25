@@ -68,7 +68,23 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO getRequiredProduct(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException(Constants.PRODUCT + "{" + productId + "}"));
-        return productMapper.toDTO(product);
+        return getProductDTOExtraDetails(productMapper.toDTO(product));
+    }
+
+    /**
+     * Retrieves additional details for a ProductDTO object.
+     *
+     * @param productDTO The ProductDTO object to retrieve additional details for.
+     * @return The updated ProductDTO object with extra details.
+     */
+    private ProductDTO getProductDTOExtraDetails(ProductDTO productDTO) {
+        List<Comment> comments = commentRepository.findTop3ByProductIdAndIsApprovedOrderByCreatedDateTimeDesc(productDTO.getId(), true);
+        List<CommentDTO> commentDTOS = commentMapper.toDTOList(comments);
+        productDTO.setLastThreeCommentDTOS(commentDTOS);
+        productDTO.setNumOfComments(commentRepository.countAllByProduct(productMapper.toEntity(productDTO)));
+        Float averageScore = voteRepository.findAverageScoreByProductId(productDTO.getId(), true);
+        productDTO.setAverageScore(averageScore == null ? 0 : averageScore);
+        return productDTO;
     }
 
     /**
@@ -96,12 +112,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(productMapper::toDTO)
                 .collect(Collectors.toList());
         for (ProductDTO productDTO : products) {
-            List<Comment> comments = commentRepository.findTop3ByProductIdAndIsApprovedOrderByCreatedDateTimeDesc(productDTO.getId(), true);
-            List<CommentDTO> commentDTOS = commentMapper.toDTOList(comments);
-            productDTO.setLastThreeCommentDTOS(commentDTOS);
-            productDTO.setNumOfComments(commentRepository.countAllByProduct(productMapper.toEntity(productDTO)));
-            Float averageScore = voteRepository.findAverageScoreByProductId(productDTO.getId(), true);
-            productDTO.setAverageScore(averageScore == null ? 0 : averageScore);
+            getProductDTOExtraDetails(productDTO);
         }
         return products;
     }
