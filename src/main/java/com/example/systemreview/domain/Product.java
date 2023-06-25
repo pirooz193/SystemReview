@@ -59,7 +59,7 @@ public class Product {
                 ", commentingEnabled=" + commentingEnabled +
                 ", votingEnabled=" + votingEnabled +
                 ", reactionRules=" + reactionRules +
-                ", buyers=" + buyers +
+                (buyers != null ? ", buyers=" + buyers.size() + " users" : "") +
                 '}';
     }
 

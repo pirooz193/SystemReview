@@ -58,7 +58,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", purchasedProducts=" + purchasedProducts +
+                (purchasedProducts != null ? ", purchasedProducts=" + purchasedProducts + " products" : "") +
                 '}';
     }
 
